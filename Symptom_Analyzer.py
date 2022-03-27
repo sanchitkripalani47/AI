@@ -18,17 +18,22 @@ from experta import *
 # Note here that the class must be subclass of KnowledgeEngine
 class FluOrCold(KnowledgeEngine):
 
+   def __init__(self):
+      self.flu_symptoms = 0
+      self.clod_symptoms = 0
+      super().__init__()
+
 	# Expert systems needs a set of Facts to be present for the system to work.
 	# DefFacts is called every time the reset method is called.
-    @DefFacts()
-    def symptoms(self):
-        yield Fact(action="flu_or_cold")
+   @DefFacts()
+   def symptoms(self):
+      yield Fact(action="flu_or_cold")
 
-    # <---- Defining rules to classify as Cold ----> 
+   # <---- Defining rules to classify as Cold ----> 
 
-    # Cold Symptoms
-    # Fever
-    @Rule(Fact(action='flu_or_cold'),
+   # Cold Symptoms
+   # Fever
+   @Rule(Fact(action='flu_or_cold'),
           OR(Fact(symptom="no fever"),
              Fact(symptom="mild fever"),
              Fact(symptom="low temperature"),
@@ -37,74 +42,74 @@ class FluOrCold(KnowledgeEngine):
              Fact(symptom="mild hyperthermia"),
              Fact(symptom="no pyrexia"),
              Fact(symptom="mild pyrexia")))
-    def fever_cold(self):
+   def fever_cold(self):
        global cold_symptoms
        cold_symptoms +=  1
 
-    # Coughing
-    @Rule(Fact(action='flu_or_cold'),
+   # Coughing
+   @Rule(Fact(action='flu_or_cold'),
           OR(Fact(symptom="dry cough"),
              Fact(symptom="mucus cough")))
-    def coughing_cold(self):
+   def coughing_cold(self):
        global cold_symptoms
        cold_symptoms +=  1
 
-    # Nasal discharge
-    @Rule(Fact(action='flu_or_cold'),
+   # Nasal discharge
+   @Rule(Fact(action='flu_or_cold'),
           OR(Fact(symptom="stuffy nose"),
              Fact(symptom="runny nose")))
-    def nasal_discharge_cold(self):
+   def nasal_discharge_cold(self):
        global cold_symptoms
        cold_symptoms += 1
 
-    # Tiredness
-    @Rule(Fact(action='flu_or_cold'),
+   # Tiredness
+   @Rule(Fact(action='flu_or_cold'),
           OR(Fact(symptom="mild tiredness"),
              Fact(symptom="mild fatigue"),
              Fact(symptom="mild exhaustion")))
-    def tiredness_cold(self):
+   def tiredness_cold(self):
        global cold_symptoms
        cold_symptoms += 1
 
-    # Headache
-    @Rule(Fact(action='flu_or_cold'),
+   # Headache
+   @Rule(Fact(action='flu_or_cold'),
           OR(Fact(symptom="headache"),
            Fact(symptom="mild headache"),
            Fact(symptom="mild migraine"),
            Fact(symptom="mild head pain")), salience=0)
-    def headache_cold(self):
+   def headache_cold(self):
        global cold_symptoms
        cold_symptoms += 1
 
-    # Dizziness
-    @Rule(Fact(action='flu_or_cold'),
+   # Dizziness
+   @Rule(Fact(action='flu_or_cold'),
          OR(Fact(symptom="no lightheadedness"),
             Fact(symptom="no syncope"),
             Fact(symptom="no fainting"),
             Fact(symptom="no dizziness")))
-    def dizziness_flu(self):
+   def dizziness_flu(self):
        global cold_symptoms
        cold_symptoms += 1
 
-    # Nausea
-    @Rule(Fact(action='flu_or_cold'),
+   # Nausea
+   @Rule(Fact(action='flu_or_cold'),
          OR(Fact(symptom="no nausea"),
             Fact(symptom="no vomiting"),
             Fact(symptom="no stomach upset"),
             Fact(symptom="no sickness"),
             Fact(symptom="no low appetite")))
-    def nausea_cold(self):
+   def nausea_cold(self):
        global cold_symptoms
        cold_symptoms += 1 
 
 	# <---- End of Symptom rules for Cold ---->    
 
 
-    # <---- Defining rules to claasify as Flu ----> 
+   # <---- Defining rules to claasify as Flu ----> 
 
-    # Flu Symptoms
-    # Fever
-    @Rule(Fact(action='flu_or_cold'),
+   # Flu Symptoms
+   # Fever
+   @Rule(Fact(action='flu_or_cold'),
          OR(Fact(symptom="high fever"),
             Fact(symptom="moderate fever"),
             Fact(symptom="high temperature"),
@@ -113,38 +118,38 @@ class FluOrCold(KnowledgeEngine):
             Fact(symptom="moderate hyperthermia"),
             Fact(symptom="high pyrexia"),
             Fact(symptom="moderate pyrexia")))
-    def fever_flu(self):
+   def fever_flu(self):
         global flu_symptoms
         flu_symptoms += 1
 
-    # Coughing
-    @Rule(Fact(action='flu_or_cold'),
+   # Coughing
+   @Rule(Fact(action='flu_or_cold'),
          Fact(symptom="dry cough"))
-    def coughing_flu(self):
+   def coughing_flu(self):
        global flu_symptoms
        flu_symptoms += 1
 
-    # Nasal discharge
-    @Rule(Fact(action='flu_or_cold'),
+   # Nasal discharge
+   @Rule(Fact(action='flu_or_cold'),
           Fact(symptom="runny nose"))
-    def nasal_discharge_flu(self):
+   def nasal_discharge_flu(self):
        global flu_symptoms
        flu_symptoms += 1
 
-    # Tiredness
-    @Rule(Fact(action='flu_or_cold'),
+   # Tiredness
+   @Rule(Fact(action='flu_or_cold'),
           OR(Fact(symptom="moderate tiredness"),
              Fact(symptom="severe tiredness"),
              Fact(symptom="moderate fatigue"),
              Fact(symptom="severe fatigue"),
              Fact(symptom="moderate exhaustion"),
              Fact(symptom="severe exhaustion")))
-    def tiredness_flu(self):
+   def tiredness_flu(self):
        global flu_symptoms
        flu_symptoms += 1
 
-    # Headache
-    @Rule(Fact(action='flu_or_cold'),
+   # Headache
+   @Rule(Fact(action='flu_or_cold'),
         OR(Fact(symptom="headache"),
            Fact(symptom="moderate headache"),
            Fact(symptom="severe headache"),
@@ -153,48 +158,48 @@ class FluOrCold(KnowledgeEngine):
            Fact(symptom="moderate head pain"),
 		   # Salience = 1 will mean that this rule will be prioritized and thus fired first
            Fact(symptom="severe head pain")), salience=1)
-    def headache_flu(self):
+   def headache_flu(self):
        global flu_symptoms
        flu_symptoms += 1
 
-    # Dizziness
-    @Rule(Fact(action='flu_or_cold'),
+   # Dizziness
+   @Rule(Fact(action='flu_or_cold'),
          OR(Fact(symptom="lightheadedness"),
             Fact(symptom="syncope"),
             Fact(symptom="fainting"),
             Fact(symptom="dizziness")))
-    def dizziness_flu(self):
+   def dizziness_flu(self):
        global flu_symptoms
        flu_symptoms += 1
 
-    # Nausea
-    @Rule(Fact(action='flu_or_cold'),
+   # Nausea
+   @Rule(Fact(action='flu_or_cold'),
          OR(Fact(symptom="nausea"),
             Fact(symptom="vomiting"),
             Fact(symptom="stomach upset"),
             Fact(symptom="sickness"),
             Fact(symptom="low appetite")))
-    def nausea_cold(self):
+   def nausea_cold(self):
        global flu_symptoms
        flu_symptoms += 1
 
-    # Common Symptoms (These symptoms are common to both cold and flu)
-    # Sneezing
-    @Rule(Fact(action='flu_or_cold'),
+   # Common Symptoms (These symptoms are common to both cold and flu)
+   # Sneezing
+   @Rule(Fact(action='flu_or_cold'),
          Fact(symptom="sneezing"))
-    def sneezing_cold_flu(self):
+   def sneezing_cold_flu(self):
        global cold_symptoms
        cold_symptoms += 1
        global flu_symptoms
        flu_symptoms += 1
 
 
-    # Sore Throat
-    @Rule(Fact(action='flu_or_cold'),
+   # Sore Throat
+   @Rule(Fact(action='flu_or_cold'),
          OR(Fact(symptom="pain throat"),
             Fact(symptom="throat sore"),
             Fact(symptom="sore throat")))
-    def sore_throat_cold_flu(self):
+   def sore_throat_cold_flu(self):
        global cold_symptoms
        cold_symptoms += 1
        global flu_symptoms
